@@ -12,11 +12,9 @@ namespace PasswordVerificator
 
 
 
-            public  UserCreation( string userEmail, string userPassword)
+            public  UserCreation( string userEmail)
             {
             UserEmail = userEmail;
-
-            userPassword = UserPassword;
 
             }
 
@@ -54,7 +52,7 @@ namespace PasswordVerificator
             
             if (dotVerified && addVerified) { emailVerified = true; }
 
-            if (emailVerified) { Console.WriteLine("Your email is ok"); }
+            if (emailVerified) { Console.WriteLine("Welcome"); }
             else { Console.WriteLine("Your email is wrong, Could be a miss spelling!"); }
             
 
