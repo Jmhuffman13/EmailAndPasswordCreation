@@ -22,6 +22,7 @@ namespace PasswordVerificator
 
             public string  UserEmail { get; set; }
             public string  UserPassword { get; set; }
+            public bool EmailVerified { get; set; }
 
 
           
@@ -53,7 +54,11 @@ namespace PasswordVerificator
             
             if (dotVerified && addVerified) { emailVerified = true; }
 
-            Console.WriteLine($"is the email verified : {emailVerified}");
+            if (emailVerified) { Console.WriteLine("Your email is ok"); }
+            else { Console.WriteLine("Your email is wrong, Could be a miss spelling!"); }
+            
+
+            
             
         }
     }
