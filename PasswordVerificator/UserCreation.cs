@@ -6,12 +6,6 @@ namespace PasswordVerificator
 {
     class UserCreation
     {
-
-
-
-
-
-
             public  UserCreation()
             {
            

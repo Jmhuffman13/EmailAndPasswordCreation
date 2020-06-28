@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 namespace PasswordVerificator
 {
@@ -9,13 +11,24 @@ namespace PasswordVerificator
 
             var newUser = new UserCreation();
 
-             //Email Validation
-            
+           
+            EmailChecker(newUser);
 
-             var addCharacterCounter = 0;
-             var dotCharacterCounter = 0;
+            PasswordChecker(newUser);
 
-             while (addCharacterCounter != 1 || dotCharacterCounter < 1) {
+
+        }
+
+
+        //Email Validation Method
+
+        public static void EmailChecker(UserCreation newUser)
+        {
+            var addCharacterCounter = 0;
+            var dotCharacterCounter = 0;
+
+            while (addCharacterCounter != 1 || dotCharacterCounter < 1)
+            {
 
                 addCharacterCounter = 0;
                 dotCharacterCounter = 0;
@@ -26,7 +39,7 @@ namespace PasswordVerificator
 
                 var userEmail = newUser.UserEmail;
 
-                char[] userEmailArray = userEmail.ToCharArray(); 
+                char[] userEmailArray = userEmail.ToCharArray();
 
                 // @ verificator got to have just one 
                 foreach (char character in userEmailArray)
@@ -41,14 +54,15 @@ namespace PasswordVerificator
                 }
 
                 if (addCharacterCounter == 1 && dotCharacterCounter != 0) { Console.WriteLine("Ok you Got Your Email ok, Now..."); }
-                    else { Console.WriteLine("Your email must be wrong shoud be a miss spelling, So lets try Again!"); }
+                else { Console.WriteLine("Your email must be wrong shoud be a miss spelling, So lets try Again!"); }
+
             }
 
+        }
 
-
-            // PASSWORD VALIDATION
-
-
+        // PassWord VAlidation Method
+        public static void PasswordChecker(UserCreation newUser)
+        {
             var specialCharacterCounter = 0;
 
             while (specialCharacterCounter < 2)
@@ -62,7 +76,7 @@ namespace PasswordVerificator
                 var userPassword = newUser.UserPassword;
                 char[] userPasswordArray = userPassword.ToCharArray();
 
-             
+
                 // AT least two especial characters verificator
 
                 foreach (char character in userPasswordArray)
@@ -74,55 +88,6 @@ namespace PasswordVerificator
                 if (specialCharacterCounter > 1) { Console.WriteLine("Ok you Got Your Password ok, Now you are registered!!"); }
                 else { Console.WriteLine("Your password must be incomplete , Remenber you need at least two of this (!@#$%^&*)"); }
             }
-
-            //newUser.ValidEmail();
-
-            /*while (addCharacterCounter != 1 || dotCharacterCounter < 1)
-            {
-                Console.WriteLine("OOps looks like your email must be wrong , maybe is a miss spelling");
-                Console.WriteLine("So Lets Try again  your email");
-                newUser.UserEmail = Console.ReadLine();
-            }
-
-
-
-         
-
-
-
-
-            // PassWord VAlidation
-
-            Console.WriteLine("Now type a strong Password");
-            newUser.UserPassword = Console.ReadLine();
-            var specialCharacterCounter = 0;
-
-            var userPassword = newUser.UserPassword;
-
-            char[] userPasswordArray = userPassword.ToCharArray();
-            foreach (var character in userPasswordArray)
-            {
-                if (character == '@' || character == '!' || character == '#' || character == '$' || character == '%' || character == '&' || character == '*')
-                {
-                    specialCharacterCounter++;
-                }
-            }
-
-            if (newUser.UserPassword.Length < 8) { Console.WriteLine($"Try Again your password dosen't have at least 8 characteres"); }
-            if (specialCharacterCounter == 0) { Console.WriteLine($"Try Again your password dosen't have any special character"); }
-            else { Console.WriteLine("Wonderfull your password have been created"); }
-
-            while (newUser.UserPassword.Length < 8  ||  specialCharacterCounter == 0)
-            {
-
-                Console.WriteLine("Sorry Your Password is not strong enougth, Please create a new  Password");
-                Console.WriteLine(" And also remember your password must have at least an special character");
-
-
-            }*/
-
-
-
 
         }
     }
