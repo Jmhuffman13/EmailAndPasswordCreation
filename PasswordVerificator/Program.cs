@@ -16,12 +16,13 @@ namespace PasswordVerificator
             var juansBankNameList = new List<string>();
             var juansBankBalanceList = new List<double>(); //Is Not updating the balance in tha manager account 
             var juansBankMoneyInList = new List<double>();
+            var juansBankMoneyOutList = new List<double>();
 
 
             while (programOn == true)
             {
                 Console.WriteLine("________________________________________");
-                Console.WriteLine("Welcome to Juan's Bank");
+                Console.WriteLine("Welcome to TRUECODERS Bank");
                 Console.WriteLine("Here are your options: Writte the letter that correspond to the option you want");
                 Console.WriteLine("Login - Type L");
                 Console.WriteLine("Sign up - Type S");
@@ -63,8 +64,102 @@ namespace PasswordVerificator
                                             Console.WriteLine($"Your account has been verified and your Balance is ${juansBankBalanceList[userIndex]}");
                                             passwordVerified = true; 
                                         }
+                                        // Put the Customer Area Here
+
+                                        var customerLogged = true;
+                                        while (customerLogged == true)
+                                        {
+                                            Console.WriteLine("________________________________________");
+                                            Console.WriteLine("What would you like to do next");
+                                            Console.WriteLine("Here are your options: Writte the letter that correspond to the option you want");
+                                            Console.WriteLine("Put Money In - Type P");
+                                            Console.WriteLine("Sendign Money  - Type S");
+                                            Console.WriteLine("Cashing Some Money Up  - Type C");
+                                            Console.WriteLine("Type Out  - to Leave the platform");
+                                            Console.WriteLine("________________________________________");
+
+                                            var userOptionInCustomerArea = Console.ReadLine().ToLower();
+
+                                            if (userOptionInCustomerArea == "p")
+                                            {
+                                                Console.WriteLine("How many are you going to deposit in your Bank Account");
+                                                // newUser.UserMoneyIn = double.Parse(Console.ReadLine()); // I can not change the object form here it says de newUser thing does not exist
+                                                juansBankMoneyInList[userIndex] = double.Parse(Console.ReadLine());
+                                                juansBankBalanceList[userIndex] = juansBankBalanceList[userIndex] + juansBankMoneyInList[userIndex];
+                                                Console.WriteLine($"Now your Balance is ${juansBankBalanceList[userIndex]}");
+                                            }
+                                            else if (userOptionInCustomerArea == "c")
+                                            {
+                                                Console.WriteLine("How many are you going to cash up");
+                                                // newUser.UserMoneyIn = double.Parse(Console.ReadLine()); // I can not change the object form here it says de newUser thing does not exist
+                                                var moneyToCashUp = double.Parse(Console.ReadLine());
+                                                if (moneyToCashUp <= juansBankBalanceList[userIndex])
+                                                {
+                                                    juansBankMoneyOutList[userIndex] = moneyToCashUp;
+                                                    juansBankBalanceList[userIndex] = juansBankBalanceList[userIndex] - juansBankMoneyOutList[userIndex];
+                                                    Console.WriteLine($"Now your Balance is ${juansBankBalanceList[userIndex]}");
+
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine($"Sorry your Balance is to Low , your Balance is ${juansBankBalanceList[userIndex]}");
+
+                                                }
+                                            } else if (userOptionInCustomerArea == "s")
+                                            {
+                                                Console.WriteLine("So How much yo want to send ");
+                                                var moneyToSendUp = double.Parse(Console.ReadLine());
+                                                if (moneyToSendUp <= juansBankBalanceList[userIndex])
+                                                {
+                                                    Console.WriteLine("Ok now...Who you want to send money to");
+                                                    var emailMoneyreceptor = (Console.ReadLine());
+                                                    var emailMoneyReceptorMatched = false;
+
+                                                    while (emailMoneyReceptorMatched == false)
+                                                    {
+
+                                                        for (var j = juansBankEmailList.Count; j > 0; j--)
+                                                        {
+                                                            if (emailMoneyreceptor == juansBankEmailList[j - 1])
+                                                            {
+                                                                var userReceptorIndex = j - 1;
+                                                                emailMoneyReceptorMatched = true;
+                                                                juansBankMoneyInList[userReceptorIndex] = moneyToSendUp;
+                                                                juansBankBalanceList[userReceptorIndex] = juansBankBalanceList[userReceptorIndex] + juansBankMoneyInList[userReceptorIndex];
+
+                                                                juansBankMoneyOutList[userIndex] = moneyToSendUp;
+                                                                juansBankBalanceList[userIndex] = juansBankBalanceList[userIndex] - juansBankMoneyOutList[userIndex];
+                                                                Console.WriteLine($"Now your Balance is ${juansBankBalanceList[userIndex]}");
+
+                                                                Console.WriteLine($" Your Sending MOney succeed, you just sent {moneyToSendUp} to {juansBankNameList[userReceptorIndex]} and now your  Balance is  ${juansBankBalanceList[userIndex]}");
+
+                                                            }
 
 
+                                                        }
+                                                        Console.WriteLine($" Sorry We can not find a customer with this email {emailMoneyreceptor}"); // THIS IS THE PROBLEM
+                                                    }
+
+
+
+
+
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine($"Sorry your Balance is to Low to send ${moneyToSendUp}, your Balance is ${juansBankBalanceList[userIndex]}");
+
+                                                }
+
+
+                                            } else if(userOptionInCustomerArea == "out")
+                                            {
+                                                Console.WriteLine($"Sorry you have to leave  {juansBankNameList[userIndex]}, see you soon!");
+
+                                                customerLogged = false;
+
+                                            }
+                                        }
                                     }
 
 
@@ -76,7 +171,7 @@ namespace PasswordVerificator
                     }
                     else
                     {
-                        Console.WriteLine("Sorry Your ar not registered yet");
+                        Console.WriteLine("Sorry Your are not registered yet");
                     }
                    
                    
@@ -98,6 +193,8 @@ namespace PasswordVerificator
                     juansBankPasswordList.Add(newUser.UserPassword);
                     juansBankNameList.Add(newUser.UserName);
                     juansBankMoneyInList.Add(newUser.UserMoneyIn);
+                    juansBankMoneyOutList.Add(newUser.UserMoneyOut); // this value should <0>
+
                     juansBankBalanceList.Add(newUser.UserBalance + newUser.UserMoneyIn - newUser.UserMoneyOut);
                     
                     newUser.BalanceAccount();
@@ -106,7 +203,7 @@ namespace PasswordVerificator
                 }
                 else if(userOption == "admin") // Why Can I not use this as a methos appart it says that de list doesn' t exist
                 {
-                    Console.WriteLine("You Have log in as the Manger of the Bank, please type the password to check all the transactions so far");
+                    Console.WriteLine("You Have log in as the Manager of the Bank, please type the password to check all the transactions so far");
 
                     var managerPassword = Console.ReadLine();
                     if (managerPassword == "admin")
@@ -114,7 +211,7 @@ namespace PasswordVerificator
                         if (juansBankEmailList.Count > 0)
                         {
                             Console.WriteLine("________________________________________");
-                            Console.WriteLine("This is the List Of the transactions");
+                            Console.WriteLine("This is the List Of the Customers and their Balances");
 
                             for(var i = 0; i < juansBankEmailList.Count; i++)
                             {
@@ -152,13 +249,31 @@ namespace PasswordVerificator
            
         }
 
-        // Manager Access
-        public static void ManagerAccess()
+        //  Customer Area 
+        /*public static void CustomerArea()
         {
-          
+            var customerLogged = true;
+            while (customerLogged == true) 
+            {
+                Console.WriteLine("________________________________________");
+                Console.WriteLine("What would you like to do next");
+                Console.WriteLine("Here are your options: Writte the letter that correspond to the option you want");
+                Console.WriteLine("Put Money In - Type P");
+                Console.WriteLine("Sendign Money  - Type S");
+                Console.WriteLine("Cashing Some Money  - Type C");
+                Console.WriteLine("Type Out  - to Leave the platform");
+                Console.WriteLine("________________________________________");
 
+                var userOption = Console.ReadLine().ToLower();
+                if(userOption == "p")
+                {
+                    Console.WriteLine("How many are you going to deposit in your Bank Account");
+                    // newUser.UserMoneyIn = double.Parse(Console.ReadLine()); // I can not change the object form here it says de newUser thing does not exist
+                    juansBankMoneyInList[userIndex] = double.Parse(Console.ReadLine());
+                }
+            }
 
-        }
+        }*/
 
 
         // Name Creation Methot
@@ -219,7 +334,7 @@ namespace PasswordVerificator
 
                 specialCharacterCounter = 0;
 
-                Console.WriteLine("Create a password");
+                Console.WriteLine("Create a password, and remember you need incluid at least 2 special characters (!@#$%&*)");
                 newUser.UserPassword = Console.ReadLine();
 
                 var userPassword = newUser.UserPassword;
